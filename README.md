@@ -1,62 +1,126 @@
-# CSE508_Winter2024_A1_2021401
+# Information Retrieval Project
 
-Sure, I can expand the README document to provide a more detailed explanation of each script, their functionalities, usage instructions, dependencies, and additional information about the information retrieval system. Here's the expanded README:
+## Overview
+This repository contains the implementation of various information retrieval tasks as part of the **CSE508 - Information Retrieval** course's **Assignment 1**. The project involves preprocessing text data, building an **inverted index**, supporting **Boolean queries**, constructing a **positional index**, and implementing **phrase search queries**.
 
-Information Retrieval System
-This repository contains a Python-based Information Retrieval (IR) system designed to process and retrieve documents based on user queries. The system consists of several scripts for preprocessing text, building inverted and positional indexes, and processing queries efficiently.
+## Dataset
+The dataset consists of **999 text files** and can be accessed using the following link:
+[Dataset Link](https://drive.google.com/drive/folders/1E-SSg8SzJQCY2lSLN45eiareFIfuMYcL)
 
-Features:
-Preprocessing of text data to enhance search accuracy.
-Construction of inverted indexes for fast retrieval of documents containing specific terms.
-Creation of positional indexes for phrase-based queries.
-Support for processing boolean queries with AND, OR, AND_NOT, and OR_NOT operators.
-Files:
-preprocess.py:
+## Project Structure
+```
+|-- preprocess.py               # Preprocesses text files (lowercasing, tokenization, stopword removal, etc.)
+|-- build_inverted_index.py     # Builds and saves a unigram inverted index
+|-- build_positional_index.py   # Builds and saves a positional index
+|-- process_queries_Q2.py       # Processes Boolean queries using the inverted index
+|-- process_phrases_Q3.py       # Processes phrase queries using the positional index
+|-- Inverted_Index.pkl          # Pickle file storing the unigram inverted index
+|-- Positional_Index.pkl        # Pickle file storing the positional index
+|-- CSE508_Winter2024_A1.pdf    # Assignment description file
+```
 
-This script preprocesses text data by performing the following steps:
-Converting text to lowercase.
-Tokenizing text into words.
-Removing stopwords (commonly occurring words like 'and', 'the', 'is', etc.).
-Removing punctuations.
-The preprocessed text is then saved in an output folder for further processing.
-build_inverted_index.py:
+## Features
+### 1. Data Preprocessing
+- Converts text to lowercase
+- Tokenizes text
+- Removes stopwords and punctuations
+- Saves preprocessed files for further processing
 
-This script builds an inverted index for unigram terms.
-It reads preprocessed text files, identifies unique terms, and maps each term to the documents containing it.
-The inverted index is then saved to a pickle file for efficient retrieval.
-build_positional_index.py:
+### 2. Inverted Index & Boolean Queries
+- Creates a **unigram inverted index**
+- Supports Boolean operations:
+  - `T1 AND T2`
+  - `T1 OR T2`
+  - `T1 AND NOT T2`
+  - `T1 OR NOT T2`
+- Handles multiple Boolean queries
 
-This script constructs a positional index for terms, which allows for phrase-based queries.
-It reads preprocessed text files, identifies terms along with their positions in each document, and creates a positional index.
-The positional index is saved to a pickle file for later use in processing phrase queries.
-process_phrases_Q3.py:
+### 3. Positional Index & Phrase Queries
+- Creates a **positional index**
+- Supports phrase search by checking term positions across documents
+- Retrieves documents where the phrase appears in sequence
 
-This script handles phrase queries using the positional index.
-It loads the positional index, preprocesses input phrases, and retrieves documents containing the specified phrases.
-The retrieved documents are then displayed along with the number of occurrences of the phrases in each document.
-process_queries_Q2.py:
+## How to Run
+### Step 1: Preprocess Data
+```bash
+python preprocess.py
+```
 
-This script processes boolean queries using the inverted index.
-It loads the inverted index, preprocesses input queries, and retrieves documents based on the boolean operations specified in the queries.
-The retrieved documents are displayed along with the number of occurrences of each term in each document.
-Usage:
-Installation:
+### Step 2: Build Indexes
+#### Inverted Index
+```bash
+python build_inverted_index.py
+```
+#### Positional Index
+```bash
+python build_positional_index.py
+```
 
-Ensure Python 3.10 and the necessary dependencies (such as NLTK) are installed on your system.
-Preprocessing:
+### Step 3: Query Processing
+#### Boolean Queries
+```bash
+python process_queries_Q2.py
+```
+#### Phrase Queries
+```bash
+python process_phrases_Q3.py
+```
 
-Run preprocess.py to preprocess the text data. Adjust input and output folder paths as needed.
-Building Indexes:
+## Sample Input/Output
+### Boolean Query Example
+#### Input:
+```
+2
+Car bag in a canister
+OR, AND NOT
+Coffee brewing techniques in cookbook
+AND, OR NOT, OR
+```
+#### Output:
+```
+Query 1: car OR bag AND NOT canister
+Number of documents retrieved for query 1: 3
+Names of documents retrieved: a.txt, b.txt, c.txt
 
-Run build_inverted_index.py to build the inverted index.
-Run build_positional_index.py to build the positional index.
-Processing Queries:
+Query 2: coffee AND brewing OR NOT techniques OR cookbook
+Number of documents retrieved for query 2: 2
+Names of documents retrieved: d.txt, e.txt
+```
 
-For boolean queries, execute process_queries_Q2.py and input the desired queries.
-For phrase queries, run process_phrases_Q3.py and input the phrases to search for.
-Dependencies:
-Python 3.10
-NLTK (Natural Language Toolkit) for text preprocessing.
-Additional Information:
-This IR system provides basic functionalities for document retrieval. It can be extended to support more advanced features such as relevance ranking, term weighting, and query expansion.
-The provided scripts are designed to handle relatively small datasets. For larger datasets, consider optimizing the code for efficiency and scalability.
+### Phrase Query Example
+#### Input:
+```
+2
+Car bag in a canister
+Coffee brewing techniques in cookbook
+```
+#### Output:
+```
+Number of documents retrieved for query 1 using positional index: 2
+Names of documents retrieved: a.txt, b.txt
+
+Number of documents retrieved for query 2 using positional index: 2
+Names of documents retrieved: a.txt, b.txt
+```
+
+## Requirements
+- Python 3.x
+- `nltk`
+- `pickle`
+
+To install dependencies:
+```bash
+pip install nltk
+```
+
+## Notes
+- The dataset should be placed in the appropriate directory before running the scripts.
+- Ensure that the required Python libraries are installed.
+- The pickle files generated (`Inverted_Index.pkl` and `Positional_Index.pkl`) store the indexes for efficient query retrieval.
+
+## Author
+Navnoor Singh
+
+## License
+This project is for educational purposes as part of the **CSE508 - Information Retrieval** course at IIITD.
+
